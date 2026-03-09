@@ -1,8 +1,9 @@
 from fastapi import APIRouter, HTTPException
-from schemas import ChatRequest, ChatResponse
-from llm_service import generate_reply
+from app.schemas import ChatRequest, ChatResponse
+from app.llm_service import generate_reply
 
 router = APIRouter()
+
 
 @router.post("/chat", response_model=ChatResponse)
 def chat_with_ai(data: ChatRequest):
@@ -14,6 +15,7 @@ def chat_with_ai(data: ChatRequest):
 
     try:
         reply = generate_reply(prompt)
+
         return {"reply": reply}
 
     except Exception:

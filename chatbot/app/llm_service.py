@@ -1,14 +1,17 @@
-import google.generativeai as genai
-from config import GEMINI_API_KEY
+import google.genai as genai
+from app.config import GEMINI_API_KEY
 
-genai.configure(api_key=GEMINI_API_KEY)
+client = genai.Client(api_key=GEMINI_API_KEY)
 
-model = genai.GenerativeModel("gemini-pro")
+model = "gemini-2.0-flash-lite"
+
 
 def generate_reply(prompt: str):
-
     try:
-        response = model.generate_content(prompt)
+        response = client.models.generate_content(
+            model=model,
+            contents=prompt
+        )
 
         if not response.text:
             raise Exception("Empty response from AI")
@@ -17,3 +20,4 @@ def generate_reply(prompt: str):
 
     except Exception as e:
         raise Exception(f"AI API Error: {str(e)}")
+
